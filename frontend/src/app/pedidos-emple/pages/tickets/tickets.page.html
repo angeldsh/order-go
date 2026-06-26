@@ -1,0 +1,34 @@
+<div class="bg-[var(--ion-color-step-50)] rounded-3xl p-6 shadow-sm border border-[var(--ion-color-step-100)] flex flex-col h-full relative overflow-hidden group">
+  <!-- Accent top border -->
+  <div class="absolute top-0 left-0 right-0 h-1.5 bg-brand"></div>
+  
+  <div class="flex items-center space-x-3 mb-6">
+    <div class="w-10 h-10 bg-brand-50 text-brand rounded-xl flex items-center justify-center shrink-0">
+      <ion-icon name="receipt-outline" class="text-xl"></ion-icon>
+    </div>
+    <div>
+      <h3 class="font-bold text-lg text-[var(--ion-text-color)] leading-tight">Generate Receipt</h3>
+      <p class="text-[var(--ion-color-step-500)] text-xs">Create a new receipt for a table</p>
+    </div>
+  </div>
+
+  <div class="flex-1 flex flex-col justify-center space-y-6">
+    <div>
+      <label class="block text-sm font-medium text-[var(--ion-color-step-600)] mb-2 ml-1">Table Number</label>
+      <div class="relative">
+        <ion-icon name="restaurant-outline" class="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--ion-color-step-400)] text-lg z-10"></ion-icon>
+        <input 
+          type="number" 
+          [(ngModel)]="mesaNum"
+          placeholder="Enter table number..."
+          class="w-full bg-[var(--ion-background-color)] border border-[var(--ion-color-step-200)] text-[var(--ion-text-color)] text-base rounded-2xl focus:ring-2 focus:ring-brand-100 focus:border-brand block pl-12 pr-4 py-3.5 transition-all outline-none"
+        >
+      </div>
+    </div>
+
+    <button (click)="crearTicket()" class="w-full bg-brand hover:bg-brand-600 text-white font-bold py-3.5 px-4 rounded-2xl shadow-md shadow-brand/20 transition-all active:scale-95 flex items-center justify-center space-x-2 focus:outline-none">
+      <ion-icon name="print-outline" class="text-xl"></ion-icon>
+      <span>Generate Receipt</span>
+    </button>
+  </div>
+</div>

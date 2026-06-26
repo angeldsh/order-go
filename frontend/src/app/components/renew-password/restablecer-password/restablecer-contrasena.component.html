@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Restablecer contraseña</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item>
+    <ion-label position="stacked">Código</ion-label>
+    <ion-input [(ngModel)]="codigo" required></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Nueva Contraseña</ion-label>
+    <ion-input [(ngModel)]="newPassword" type="password" required></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Confirmar Contraseña</ion-label>
+    <ion-input
+      [(ngModel)]="confirmPassword"
+      type="password"
+      required
+    ></ion-input>
+  </ion-item>
+  <ion-button
+    class="custom-button"
+    expand="block"
+    (click)="restablecerContrasena()"
+    >Restablecer Contraseña</ion-button
+  >
+</ion-content>

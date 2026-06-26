@@ -1,0 +1,109 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="bg-transparent" color="transparent">
+    <ion-title class="font-sans font-bold text-lg text-[var(--ion-text-color)]">{{ empleado ? 'Edit Employee' : 'Add Employee' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()" class="text-[var(--ion-color-step-600)]">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding font-sans bg-[var(--ion-background-color)]">
+  <div class="px-4 py-2">
+    <form [formGroup]="empleadoForm" (ngSubmit)="guardarCambios()" class="space-y-4">
+      
+      <div class="grid grid-cols-2 gap-4">
+        <!-- Available -->
+        <div class="relative flex flex-col justify-center">
+          <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand transition-colors w-full h-[3.25rem]">
+            <ion-text class="text-sm font-sans font-medium text-[var(--ion-color-step-600)]" slot="start">Available</ion-text>
+            <ion-toggle formControlName="disponible" slot="end" color="primary"></ion-toggle>
+          </ion-item>
+        </div>
+
+        <!-- NIF -->
+        <div class="relative">
+          <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand transition-colors">
+            <ion-input label="NIF / ID" label-placement="floating" formControlName="nif" class="font-sans" required></ion-input>
+          </ion-item>
+          <p class="text-brand text-[10px] font-sans font-medium mt-1 ml-2" *ngIf="empleadoForm.get('nif')?.hasError('required') && empleadoForm.get('nif')?.touched">NIF is required.</p>
+          <p class="text-brand text-[10px] font-sans font-medium mt-1 ml-2" *ngIf="empleadoForm.get('nif')?.hasError('nifInvalido') && empleadoForm.get('nif')?.touched">Invalid NIF.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <!-- Position -->
+        <div class="relative">
+          <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand transition-colors">
+            <ion-input label="Position" label-placement="floating" formControlName="puesto" class="font-sans" required></ion-input>
+          </ion-item>
+          <p class="text-brand text-[10px] font-sans font-medium mt-1 ml-2" *ngIf="empleadoForm.get('puesto')?.hasError('required') && empleadoForm.get('puesto')?.touched">Required.</p>
+        </div>
+
+        <!-- Phone -->
+        <div class="relative">
+          <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand transition-colors">
+            <ion-input label="Phone" label-placement="floating" formControlName="telefono" type="tel" class="font-sans" required></ion-input>
+          </ion-item>
+          <p class="text-brand text-[10px] font-sans font-medium mt-1 ml-2" *ngIf="empleadoForm.get('telefono')?.hasError('required') && empleadoForm.get('telefono')?.touched">Required.</p>
+          <p class="text-brand text-[10px] font-sans font-medium mt-1 ml-2" *ngIf="empleadoForm.get('telefono')?.hasError('telefonoInvalido') && empleadoForm.get('telefono')?.touched">Invalid format.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <!-- Name -->
+        <div class="relative">
+          <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand transition-colors">
+            <ion-input label="First Name" label-placement="floating" formControlName="nombre" class="font-sans" required></ion-input>
+          </ion-item>
+          <p class="text-brand text-[10px] font-sans font-medium mt-1 ml-2" *ngIf="empleadoForm.get('nombre')?.hasError('required') && empleadoForm.get('nombre')?.touched">Required.</p>
+        </div>
+
+        <!-- Last Name -->
+        <div class="relative">
+          <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand transition-colors">
+            <ion-input label="Last Name" label-placement="floating" formControlName="apellidos" class="font-sans" required></ion-input>
+          </ion-item>
+          <p class="text-brand text-[10px] font-sans font-medium mt-1 ml-2" *ngIf="empleadoForm.get('apellidos')?.hasError('required') && empleadoForm.get('apellidos')?.touched">Required.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <!-- Username -->
+        <div class="relative">
+          <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand transition-colors">
+            <ion-input label="Username" label-placement="floating" formControlName="username" class="font-sans" required></ion-input>
+          </ion-item>
+          <p class="text-brand text-[10px] font-sans font-medium mt-1 ml-2" *ngIf="empleadoForm.get('username')?.hasError('required') && empleadoForm.get('username')?.touched">Username is required.</p>
+          <p class="text-brand text-[10px] font-sans font-medium mt-1 ml-2" *ngIf="empleadoForm.get('username')?.hasError('usernameExiste') && empleadoForm.get('username')?.touched">Username exists.</p>
+        </div>
+
+        <!-- Password -->
+        <div class="relative">
+          <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand transition-colors">
+            <ion-input label="Password" label-placement="floating" formControlName="password" type="password" class="font-sans"></ion-input>
+          </ion-item>
+          <p class="text-brand text-[10px] font-sans font-medium mt-1 ml-2" *ngIf="empleadoForm.get('password')?.hasError('required') && empleadoForm.get('password')?.touched">Required.</p>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="relative">
+        <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand transition-colors">
+          <ion-input label="Email Address" label-placement="floating" formControlName="email" type="email" class="font-sans" required></ion-input>
+        </ion-item>
+        <p class="text-brand text-[10px] font-sans font-medium mt-1 ml-2" *ngIf="empleadoForm.get('email')?.hasError('required') && empleadoForm.get('email')?.touched">Email is required.</p>
+        <p class="text-brand text-[10px] font-sans font-medium mt-1 ml-2" *ngIf="empleadoForm.get('email')?.hasError('email') && empleadoForm.get('email')?.touched">Invalid email.</p>
+        <p class="text-brand text-[10px] font-sans font-medium mt-1 ml-2" *ngIf="empleadoForm.get('email')?.hasError('emailExiste') && empleadoForm.get('email')?.touched">Email exists.</p>
+      </div>
+
+      <div class="pt-4">
+        <ion-button type="submit" expand="block" [disabled]="empleadoForm.invalid" class="h-12 font-sans font-bold shadow-md rounded-2xl overflow-hidden" color="primary">
+          {{ empleado ? 'Save Changes' : 'Add Employee' }}
+        </ion-button>
+      </div>
+
+    </form>
+  </div>
+</ion-content>

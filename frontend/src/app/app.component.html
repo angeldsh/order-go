@@ -1,0 +1,108 @@
+<ion-app>
+  <ion-split-pane contentId="main-content">
+    <ion-menu contentId="main-content" type="overlay" class="font-sans border-r border-[var(--ion-color-step-100)] shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
+      <ion-content>
+        
+        <!-- Menu Header -->
+        <div class="px-6 py-12 bg-brand text-white relative overflow-hidden">
+          <!-- Abstract Shapes -->
+          <div class="absolute -top-10 -right-10 w-40 h-40 bg-white opacity-10 rounded-full blur-3xl"></div>
+          <div class="absolute bottom-0 left-0 w-32 h-32 bg-brand-dark opacity-50 rounded-full blur-2xl transform translate-y-1/2 -translate-x-1/2"></div>
+          
+          <div class="flex items-center space-x-4 relative z-10" routerLink="/welcome">
+            <div class="bg-white p-2.5 rounded-2xl shadow-[0_4px_15px_rgba(0,0,0,0.1)] transform active:scale-95 transition-transform cursor-pointer">
+              <img
+                src="assets/icon/logo.png"
+                alt="Logo"
+                class="w-12 h-12 object-cover"
+              />
+            </div>
+            <div>
+              <h2 class="text-2xl font-display font-extrabold tracking-tight">Order & Go</h2>
+              <p class="text-sm font-sans font-medium text-brand-light mt-0.5">Instant flavor</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation List -->
+        <div class="mt-6 px-4 space-y-2 pb-8">
+          <ion-menu-toggle
+            auto-hide="false"
+            *ngFor="let p of appPages; let i = index"
+          >
+            <ion-item
+              routerDirection="root"
+              [routerLink]="[p.url]"
+              lines="none"
+              detail="false"
+              routerLinkActive="bg-brand/10 text-brand font-bold border-l-4 border-brand"
+              class="rounded-xl mb-2 cursor-pointer transition-all duration-200 hover:bg-[var(--ion-color-step-50)] text-[var(--ion-text-color)] font-sans font-semibold border-l-4 border-transparent"
+            >
+              <ion-icon
+                aria-hidden="true"
+                slot="start"
+                [ios]="p.icon + '-outline'"
+                [md]="p.icon + '-sharp'"
+                class="text-[22px] ml-1"
+              ></ion-icon>
+              <ion-label class="ml-3 mt-0.5">{{ p.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <div class="my-8 mx-4 border-t border-[var(--ion-color-step-100)]"></div>
+
+          <!-- Preferences -->
+          <div class="px-4 mb-2 text-xs font-sans font-bold opacity-50 uppercase tracking-wider">Settings</div>
+          <ion-item
+            lines="none"
+            detail="false"
+            class="rounded-xl mb-4 cursor-pointer text-[var(--ion-text-color)] transition-colors font-sans font-semibold border-l-4 border-transparent"
+          >
+            <ion-icon
+              [name]="darkMode ? 'moon-outline' : 'sunny-outline'"
+              slot="start"
+              class="text-[22px] ml-1 opacity-70"
+            ></ion-icon>
+            <ion-label class="ml-3 mt-0.5">Dark Mode</ion-label>
+            <ion-toggle slot="end" [checked]="darkMode" (ionChange)="toggleDarkMode()"></ion-toggle>
+          </ion-item>
+
+          <!-- Auth Actions -->
+          <ion-item
+            *ngIf="autenticacionService.isSesionIniciada() | async"
+            (click)="logout()"
+            routerDirection="root"
+            lines="none"
+            detail="false"
+            class="rounded-xl cursor-pointer opacity-80 hover:opacity-100 hover:bg-[var(--ion-color-danger-tint)] hover:text-[var(--ion-color-danger)] transition-colors font-sans font-semibold border-l-4 border-transparent"
+          >
+            <ion-icon
+              name="log-out-outline"
+              slot="start"
+              class="text-[22px] ml-1"
+            ></ion-icon>
+            <ion-label class="ml-3 mt-0.5">Log Out</ion-label>
+          </ion-item>
+
+          <ion-item
+            *ngIf="!(autenticacionService.isSesionIniciada() | async) && !isPedidoMesa()"
+            routerDirection="root"
+            routerLink="/auth/login"
+            lines="none"
+            detail="false"
+            class="rounded-xl cursor-pointer text-brand hover:bg-brand/10 transition-colors font-sans font-bold border-l-4 border-transparent"
+          >
+            <ion-icon
+              name="log-in-outline"
+              slot="start"
+              class="text-[22px] ml-1"
+            ></ion-icon>
+            <ion-label class="ml-3 mt-0.5">Log In</ion-label>
+          </ion-item>
+        </div>
+
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

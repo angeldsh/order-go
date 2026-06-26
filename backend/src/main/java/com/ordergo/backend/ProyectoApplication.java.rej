@@ -1,0 +1,10 @@
+diff a/Servidor/spring/proyecto/src/main/java/com/daw2/proyecto/ProyectoApplication.java b/Servidor/spring/proyecto/src/main/java/com/daw2/proyecto/ProyectoApplication.java	(rejected hunks)
+@@ -26,7 +26,7 @@
+ 
+ @SpringBootApplication
+ //@EnableWebSecurity
+-@EnableGlobalMethodSecurity(securedEnabled = true)
++//@EnableGlobalMethodSecurity(securedEnabled = true)
+ public class ProyectoApplication implements CommandLineRunner {
+     @Autowired
+     private UsuariosService usuariosService;

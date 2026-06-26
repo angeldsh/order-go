@@ -1,0 +1,84 @@
+<ion-content scrollEvents="true" (ionScroll)="scrollHandler($event)">
+  
+  <!-- Categories Sticky Header -->
+  <div class="sticky top-0 z-20 bg-[var(--ion-background-color)]/90 backdrop-blur-md border-b border-[var(--ion-color-step-100)] shadow-[0_4px_20px_rgb(0,0,0,0.03)] dark:shadow-none w-full">
+    <div class="max-w-4xl mx-auto px-2 pt-3 pb-2">
+      <ion-segment [value]="categoriaVisible" scrollable="true" (ionChange)="scrollToCategoria($event.detail.value + '')" class="bg-transparent" mode="ios">
+        <ion-segment-button *ngFor="let grupo of productosAgrupadosPorCategoria" [value]="grupo.categoria" class="min-w-fit font-sans font-bold text-sm">
+          <ion-label class="px-2">{{ grupo.categoria }}</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+  </div>
+
+  <!-- Products List -->
+  <div class="px-5 py-4 pb-[40vh] max-w-4xl mx-auto">
+    <ng-container *ngFor="let grupo of productosAgrupadosPorCategoria">
+      <div [id]="grupo.categoria" class="mb-10 pt-4">
+        
+        <!-- Category Title -->
+        <div class="flex items-center space-x-3 mb-5 pl-1">
+          <div class="w-1 h-6 bg-brand rounded-full"></div>
+          <h2 class="text-2xl font-display font-extrabold text-[var(--ion-text-color)]">
+            {{ grupo.categoria }}
+          </h2>
+        </div>
+
+        <!-- Product Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div
+            *ngFor="let producto of grupo.productos"
+            class="bg-[var(--ion-background-color)] rounded-3xl p-4 shadow-[0_4px_20px_rgb(0,0,0,0.03)] dark:shadow-none border border-[var(--ion-color-step-150)] flex items-center hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300 group"
+          >
+            <!-- Image -->
+            <div class="w-28 h-28 flex-shrink-0 bg-[var(--ion-color-step-50)] rounded-[1.25rem] overflow-hidden relative shadow-inner">
+              <img
+                *ngIf="producto.imagen && producto.imagenCargada"
+                [src]="producto.imagen"
+                alt="{{ producto.nombre }}"
+                class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+              />
+              <div *ngIf="!producto.imagenCargada" class="absolute inset-0 flex items-center justify-center">
+                <ion-spinner name="crescent" class="text-brand"></ion-spinner>
+              </div>
+            </div>
+
+            <!-- Details -->
+            <div class="ml-5 flex-1 flex flex-col justify-between h-28 py-1">
+              <div>
+                <h3 class="font-sans font-bold text-[var(--ion-text-color)] leading-tight line-clamp-2 text-base">
+                  {{ producto.nombre }}
+                </h3>
+                <p class="text-brand font-extrabold mt-1 text-[1.1rem]">{{ producto.precio }} €</p>
+              </div>
+
+              <!-- Actions -->
+              <div class="flex items-center justify-end mt-auto">
+                <div class="flex items-center bg-[var(--ion-color-step-50)] rounded-full p-1 border border-[var(--ion-color-step-150)]">
+                  <button
+                    (click)="quitarProducto(producto)"
+                    class="w-8 h-8 rounded-full flex items-center justify-center opacity-60 hover:opacity-100 hover:bg-[var(--ion-color-danger-tint)] hover:text-[var(--ion-color-danger)] transition-all"
+                  >
+                    <ion-icon name="remove-outline" class="text-xl"></ion-icon>
+                  </button>
+                  <span class="w-8 text-center font-sans font-extrabold text-[var(--ion-text-color)]">
+                    {{ obtenerCantidadEnCarrito(producto) }}
+                  </span>
+                  <button
+                    (click)="agregarProducto(producto)"
+                    class="w-8 h-8 rounded-full bg-brand text-white flex items-center justify-center shadow-[0_4px_10px_rgba(255,71,87,0.3)] hover:bg-brand-dark hover:scale-105 transition-all"
+                  >
+                    <ion-icon name="add-outline" class="text-xl"></ion-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </ng-container>
+  </div>
+
+</ion-content>

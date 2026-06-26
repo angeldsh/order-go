@@ -1,0 +1,99 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="bg-[var(--ion-background-color)] border-b border-[var(--ion-color-step-100)]">
+    <ion-buttons slot="start">
+      <ion-menu-button class="text-[var(--ion-text-color)]"></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="font-display font-bold text-xl text-[var(--ion-text-color)]">My Orders</ion-title>
+    <ion-buttons slot="end" class="pr-2">
+      <button (click)="actualizarPedidos()" class="w-10 h-10 rounded-full bg-[var(--ion-color-step-50)] text-brand flex items-center justify-center hover:bg-[var(--ion-color-step-100)] transition-colors active:scale-95">
+        <ion-icon name="refresh-outline" class="text-xl"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="bg-[var(--ion-background-color)]">
+  <div class="max-w-3xl mx-auto px-5 py-6 pb-24">
+    
+    <!-- Filtros / Toggles -->
+    <div class="flex items-center justify-between mb-6 bg-[var(--ion-color-step-50)] p-1 rounded-2xl">
+      <button 
+        (click)="mostrarCompletados = false" 
+        [ngClass]="!mostrarCompletados ? 'bg-white dark:bg-black shadow text-[var(--ion-text-color)]' : 'text-[var(--ion-color-step-600)]'"
+        class="flex-1 py-2 rounded-xl text-sm font-bold font-sans transition-all duration-300">
+        Pending
+      </button>
+      <button 
+        (click)="mostrarCompletados = true" 
+        [ngClass]="mostrarCompletados ? 'bg-white dark:bg-black shadow text-[var(--ion-text-color)]' : 'text-[var(--ion-color-step-600)]'"
+        class="flex-1 py-2 rounded-xl text-sm font-bold font-sans transition-all duration-300">
+        History
+      </button>
+    </div>
+
+    <!-- Lista de Pedidos -->
+    <div class="space-y-5">
+      <div *ngFor="let pedido of pedidos" [hidden]="!mostrarCompletados && pedido.estado === 'completado'" 
+           class="bg-[var(--ion-background-color)] border border-[var(--ion-color-step-150)] rounded-[2rem] p-5 shadow-[0_4px_20px_rgb(0,0,0,0.03)] dark:shadow-none transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
+        
+        <!-- Cabecera Pedido -->
+        <div class="flex justify-between items-start mb-4 pb-4 border-b border-[var(--ion-color-step-100)]">
+          <div>
+            <p class="text-[var(--ion-color-step-600)] text-xs font-bold uppercase tracking-wider mb-1">
+              {{ pedido.fecha | date: 'dd MMM yyyy' }}
+            </p>
+            <p class="text-[var(--ion-text-color)] font-display font-extrabold text-lg">
+              {{ pedido.fecha | date: 'HH:mm' }}
+            </p>
+          </div>
+          
+          <div [ngSwitch]="pedido.estado" class="px-4 py-1.5 rounded-full font-bold text-sm flex items-center gap-2"
+               [ngClass]="{
+                 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400': pedido.estado === 'pendiente',
+                 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400': pedido.estado === 'completado',
+                 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400': pedido.estado !== 'pendiente' && pedido.estado !== 'completado'
+               }">
+            <ion-spinner *ngIf="pedido.estado !== 'completado' && pedido.estado !== 'pendiente'" name="dots" class="w-4 h-4"></ion-spinner>
+            <span>{{ pedido.estado === 'pendiente' ? 'Pending' : 
+                     pedido.estado === 'preparando' ? 'Preparing' : 
+                     pedido.estado === 'enviado' ? 'Sent' : 'Completed' }}</span>
+          </div>
+        </div>
+
+        <!-- Dirección -->
+        <div *ngIf="pedido.direccion?.direccion" class="flex items-center gap-3 mb-4 bg-[var(--ion-color-step-50)] p-3 rounded-2xl">
+          <div class="w-10 h-10 rounded-full bg-brand/10 text-brand flex items-center justify-center flex-shrink-0">
+            <ion-icon name="location" class="text-xl"></ion-icon>
+          </div>
+          <div>
+            <p class="text-[var(--ion-color-step-500)] text-xs font-bold">Delivery Address</p>
+            <p class="text-[var(--ion-text-color)] font-sans text-sm font-semibold">{{ pedido.direccion?.direccion }}</p>
+          </div>
+        </div>
+
+        <!-- Lista de Productos -->
+        <div class="space-y-3" *ngIf="pedido.id !== null && detallesPedidos[pedido.id]">
+          <div *ngFor="let detalle of detallesPedidos[pedido.id]" class="flex justify-between items-center">
+            <div class="flex items-center gap-3">
+              <span class="font-extrabold text-brand bg-brand/10 w-8 h-8 rounded-lg flex items-center justify-center text-sm">
+                {{ detalle.cantidad }}x
+              </span>
+              <span class="text-[var(--ion-text-color)] font-semibold text-sm">{{ detalle.producto.nombre }}</span>
+            </div>
+            <span class="font-extrabold text-[var(--ion-text-color)]">{{ detalle.precio * detalle.cantidad | number:'1.2-2' }} €</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Empty State -->
+      <div *ngIf="pedidos.length === 0" class="text-center py-20">
+        <div class="w-24 h-24 bg-[var(--ion-color-step-50)] rounded-full flex items-center justify-center mx-auto mb-4">
+          <ion-icon name="receipt-outline" class="text-4xl text-[var(--ion-color-step-400)]"></ion-icon>
+        </div>
+        <h3 class="font-display font-bold text-xl text-[var(--ion-text-color)] mb-2">No orders</h3>
+        <p class="text-[var(--ion-color-step-500)] font-sans">You don't have any registered orders yet.</p>
+      </div>
+      
+    </div>
+  </div>
+</ion-content>

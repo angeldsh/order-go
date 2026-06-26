@@ -1,0 +1,26 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="--background-transparent bg-[var(--ion-background-color)] border-b border-[var(--ion-color-step-50)]">
+    <ion-buttons slot="start" class="ml-2">
+      <div class="lg:hidden bg-[var(--ion-color-step-50)] rounded-xl shadow-sm border border-[var(--ion-color-step-100)] flex items-center justify-center w-11 h-11">
+        <ion-menu-button color="primary"></ion-menu-button>
+      </div>
+    </ion-buttons>
+
+    <ion-title class="font-display font-bold text-xl text-center text-[var(--ion-text-color)]">Active Orders</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="actualizarPedidos()" fill="clear" class="mr-3 relative overflow-visible" title="Refresh Orders">
+        <div class="bg-[var(--ion-color-step-100)] text-[var(--ion-color-step-600)] hover:bg-[var(--ion-color-step-200)] hover:text-brand rounded-xl shadow-sm w-11 h-11 flex items-center justify-center transition-all active:scale-95 border border-[var(--ion-color-step-150)]">
+          <ion-icon name="refresh-outline" class="text-2xl m-0"></ion-icon>
+        </div>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="bg-[var(--ion-background-color)]">
+  <div class="p-4 md:p-6 h-full">
+    <app-tabla [pedidos]="pedidos" [detallesPedidos]="detallesPedidos"></app-tabla>
+  </div>
+</ion-content>
+

@@ -1,0 +1,15 @@
+#paypal-button-container {
+  width: 100%; 
+  height: auto;
+  
+  border-radius: 10px; 
+}
+
+@media screen and (min-width: 768px) {
+  #paypal-button-container {
+    max-width: 750px; 
+    margin: 0 auto; 
+   
+  }
+}
+

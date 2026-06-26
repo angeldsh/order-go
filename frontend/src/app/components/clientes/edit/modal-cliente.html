@@ -1,0 +1,91 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="bg-transparent" color="transparent">
+    <ion-title class="font-sans font-bold text-lg text-[var(--ion-text-color)]">{{ cliente ? 'Edit Customer' : 'Add Customer' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()" class="text-[var(--ion-color-step-600)]">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding font-sans bg-[var(--ion-background-color)]">
+  <div class="px-4 py-2">
+    <form [formGroup]="clienteForm" (ngSubmit)="guardarCambios()" class="space-y-4">
+      
+      <div class="grid grid-cols-2 gap-4">
+        <!-- Phone -->
+        <div class="relative">
+          <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand transition-colors">
+            <ion-input label="Phone" label-placement="floating" formControlName="telefono" type="tel" class="font-sans" required></ion-input>
+          </ion-item>
+          <p class="text-brand text-[10px] font-sans font-medium mt-1 ml-2" *ngIf="clienteForm.get('telefono')?.hasError('required') && clienteForm.get('telefono')?.touched">Phone is required.</p>
+          <p class="text-brand text-[10px] font-sans font-medium mt-1 ml-2" *ngIf="clienteForm.get('telefono')?.hasError('telefonoInvalido') && clienteForm.get('telefono')?.touched">Invalid format.</p>
+        </div>
+
+        <!-- NIF -->
+        <div class="relative">
+          <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand transition-colors">
+            <ion-input label="NIF" label-placement="floating" formControlName="nif" class="font-sans" required></ion-input>
+          </ion-item>
+          <p class="text-brand text-[10px] font-sans font-medium mt-1 ml-2" *ngIf="clienteForm.get('nif')?.hasError('required') && clienteForm.get('nif')?.touched">NIF is required.</p>
+          <p class="text-brand text-[10px] font-sans font-medium mt-1 ml-2" *ngIf="clienteForm.get('nif')?.hasError('nifInvalido') && clienteForm.get('nif')?.touched">Invalid NIF.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <!-- Name -->
+        <div class="relative">
+          <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand transition-colors">
+            <ion-input label="First Name" label-placement="floating" formControlName="nombre" class="font-sans" required></ion-input>
+          </ion-item>
+          <p class="text-brand text-[10px] font-sans font-medium mt-1 ml-2" *ngIf="clienteForm.get('nombre')?.hasError('required') && clienteForm.get('nombre')?.touched">Required.</p>
+        </div>
+
+        <!-- Last Name -->
+        <div class="relative">
+          <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand transition-colors">
+            <ion-input label="Last Name" label-placement="floating" formControlName="apellidos" class="font-sans" required></ion-input>
+          </ion-item>
+          <p class="text-brand text-[10px] font-sans font-medium mt-1 ml-2" *ngIf="clienteForm.get('apellidos')?.hasError('required') && clienteForm.get('apellidos')?.touched">Required.</p>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="relative">
+        <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand transition-colors">
+          <ion-input label="Email Address" label-placement="floating" formControlName="email" type="email" class="font-sans" required></ion-input>
+        </ion-item>
+        <p class="text-brand text-[10px] font-sans font-medium mt-1 ml-2" *ngIf="clienteForm.get('email')?.hasError('required') && clienteForm.get('email')?.touched">Email is required.</p>
+        <p class="text-brand text-[10px] font-sans font-medium mt-1 ml-2" *ngIf="clienteForm.get('email')?.hasError('email') && clienteForm.get('email')?.touched">Invalid email.</p>
+        <p class="text-brand text-[10px] font-sans font-medium mt-1 ml-2" *ngIf="clienteForm.get('email')?.hasError('emailExiste') && clienteForm.get('email')?.touched">Email exists.</p>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <!-- Username -->
+        <div class="relative">
+          <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand transition-colors">
+            <ion-input label="Username" label-placement="floating" formControlName="username" class="font-sans" required></ion-input>
+          </ion-item>
+          <p class="text-brand text-[10px] font-sans font-medium mt-1 ml-2" *ngIf="clienteForm.get('username')?.hasError('required') && clienteForm.get('username')?.touched">Username is required.</p>
+          <p class="text-brand text-[10px] font-sans font-medium mt-1 ml-2" *ngIf="clienteForm.get('username')?.hasError('usernameExiste') && clienteForm.get('username')?.touched">Username exists.</p>
+        </div>
+
+        <!-- Password -->
+        <div class="relative">
+          <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand transition-colors">
+            <ion-input label="Password" label-placement="floating" formControlName="password" type="password" class="font-sans"></ion-input>
+          </ion-item>
+          <p class="text-brand text-[10px] font-sans font-medium mt-1 ml-2" *ngIf="clienteForm.get('password')?.hasError('required') && clienteForm.get('password')?.touched">Required.</p>
+        </div>
+      </div>
+
+      <div class="pt-4">
+        <ion-button type="submit" expand="block" [disabled]="clienteForm.invalid" class="h-12 font-sans font-bold shadow-md rounded-2xl overflow-hidden" color="primary">
+          {{ cliente ? 'Save Changes' : 'Add Customer' }}
+        </ion-button>
+      </div>
+
+    </form>
+  </div>
+</ion-content>

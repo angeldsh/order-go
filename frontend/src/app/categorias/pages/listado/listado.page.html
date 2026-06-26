@@ -1,0 +1,25 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="--background-transparent bg-[var(--ion-background-color)] border-b border-[var(--ion-color-step-50)]">
+    <ion-buttons slot="start" class="ml-2">
+      <div class="lg:hidden bg-[var(--ion-color-step-50)] rounded-xl shadow-sm border border-[var(--ion-color-step-100)] flex items-center justify-center w-11 h-11">
+        <ion-menu-button color="primary"></ion-menu-button>
+      </div>
+    </ion-buttons>
+
+    <ion-title class="font-display font-bold text-xl text-center text-[var(--ion-text-color)]">Categories</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="addCategoria()" fill="clear" class="mr-3 relative overflow-visible">
+        <div class="bg-brand text-white rounded-xl shadow-md w-11 h-11 flex items-center justify-center transition-transform active:scale-95">
+          <ion-icon name="add" class="text-2xl m-0"></ion-icon>
+        </div>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="bg-[var(--ion-background-color)]">
+  <div class="px-4 py-6">
+    <app-tabla [categorias]="categorias"></app-tabla>
+  </div>
+</ion-content>

@@ -1,0 +1,27 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="bg-transparent" color="transparent">
+    <ion-title class="font-sans font-bold text-lg text-[var(--ion-text-color)]">Pay with PayPal</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()" class="text-[var(--ion-color-step-600)]">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding font-sans bg-[var(--ion-background-color)]">
+  <div class="px-4 py-6 flex flex-col items-center justify-center">
+    <div class="bg-[var(--ion-color-step-50)] rounded-2xl shadow-sm border border-[var(--ion-color-step-150)] p-6 w-full text-center mb-8">
+      <p class="text-sm font-medium text-[var(--ion-color-step-600)] mb-2 uppercase tracking-wider">Total Price</p>
+      <div class="text-4xl font-display font-bold text-brand">{{ totalPrecio }} €</div>
+    </div>
+
+    <div class="w-full">
+      <app-paypal-button
+        [amount]="totalPrecio"
+        (paymentSuccess)="onPaymentSuccess()"
+        class="w-full"
+      ></app-paypal-button>
+    </div>
+  </div>
+</ion-content>

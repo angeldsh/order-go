@@ -1,0 +1,7 @@
+{
+  "name": "orderAndGo",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

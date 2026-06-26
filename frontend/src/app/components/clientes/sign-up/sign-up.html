@@ -1,0 +1,101 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="bg-[var(--ion-background-color)]">
+    <ion-title class="font-display font-bold text-center text-xl mt-2 text-[var(--ion-text-color)]">Sign Up</ion-title>
+    <ion-buttons slot="end" class="mr-2 mt-2">
+      <ion-button (click)="dismiss()" class="bg-[var(--ion-color-step-50)] rounded-full w-8 h-8">
+        <ion-icon slot="icon-only" name="close" class="opacity-70 text-[var(--ion-text-color)]"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg-[var(--ion-background-color)]">
+  <div class="px-6 py-4">
+    <form [formGroup]="clienteForm" (ngSubmit)="signUp()" class="space-y-4">
+      
+      <!-- Phone -->
+      <div class="relative">
+        <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand focus-within:ring-1 focus-within:ring-brand transition-all">
+          <ion-icon name="call-outline" slot="start" class="opacity-50 ml-1"></ion-icon>
+          <ion-input label="Phone" labelPlacement="floating" formControlName="telefono" type="tel" class="font-sans font-medium"></ion-input>
+        </ion-item>
+        <p class="text-brand text-xs font-sans font-medium mt-1 ml-2" *ngIf="clienteForm.get('telefono')?.hasError('required') && clienteForm.get('telefono')?.touched">Phone is required.</p>
+        <p class="text-brand text-xs font-sans font-medium mt-1 ml-2" *ngIf="clienteForm.get('telefono')?.hasError('telefonoInvalido') && clienteForm.get('telefono')?.touched">Invalid phone format.</p>
+      </div>
+
+      <!-- NIF -->
+      <div class="relative">
+        <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand focus-within:ring-1 focus-within:ring-brand transition-all">
+          <ion-icon name="card-outline" slot="start" class="opacity-50 ml-1"></ion-icon>
+          <ion-input label="NIF / ID Number" labelPlacement="floating" formControlName="nif" class="font-sans font-medium"></ion-input>
+        </ion-item>
+        <p class="text-brand text-xs font-sans font-medium mt-1 ml-2" *ngIf="clienteForm.get('nif')?.hasError('required') && clienteForm.get('nif')?.touched">NIF is required.</p>
+        <p class="text-brand text-xs font-sans font-medium mt-1 ml-2" *ngIf="clienteForm.get('nif')?.hasError('nifInvalido') && clienteForm.get('nif')?.touched">Invalid NIF format.</p>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <!-- First Name -->
+        <div class="relative">
+          <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand focus-within:ring-1 focus-within:ring-brand transition-all">
+            <ion-input label="First Name" labelPlacement="floating" formControlName="nombre" class="font-sans font-medium"></ion-input>
+          </ion-item>
+          <p class="text-brand text-xs font-sans font-medium mt-1 ml-2" *ngIf="clienteForm.get('nombre')?.hasError('required') && clienteForm.get('nombre')?.touched">Required.</p>
+        </div>
+
+        <!-- Last Name -->
+        <div class="relative">
+          <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand focus-within:ring-1 focus-within:ring-brand transition-all">
+            <ion-input label="Last Name" labelPlacement="floating" formControlName="apellidos" class="font-sans font-medium"></ion-input>
+          </ion-item>
+          <p class="text-brand text-xs font-sans font-medium mt-1 ml-2" *ngIf="clienteForm.get('apellidos')?.hasError('required') && clienteForm.get('apellidos')?.touched">Required.</p>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="relative">
+        <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand focus-within:ring-1 focus-within:ring-brand transition-all">
+          <ion-icon name="mail-outline" slot="start" class="opacity-50 ml-1"></ion-icon>
+          <ion-input label="Email Address" labelPlacement="floating" formControlName="email" type="email" class="font-sans font-medium"></ion-input>
+        </ion-item>
+        <p class="text-brand text-xs font-sans font-medium mt-1 ml-2" *ngIf="clienteForm.get('email')?.hasError('required') && clienteForm.get('email')?.touched">Email is required.</p>
+        <p class="text-brand text-xs font-sans font-medium mt-1 ml-2" *ngIf="clienteForm.get('email')?.hasError('email') && clienteForm.get('email')?.touched">Invalid email format.</p>
+        <p class="text-brand text-xs font-sans font-medium mt-1 ml-2" *ngIf="clienteForm.get('email')?.hasError('emailExiste') && clienteForm.get('email')?.touched">Email already exists.</p>
+      </div>
+
+      <!-- Username -->
+      <div class="relative">
+        <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand focus-within:ring-1 focus-within:ring-brand transition-all">
+          <ion-icon name="person-outline" slot="start" class="opacity-50 ml-1"></ion-icon>
+          <ion-input label="Username" labelPlacement="floating" formControlName="username" class="font-sans font-medium"></ion-input>
+        </ion-item>
+        <p class="text-brand text-xs font-sans font-medium mt-1 ml-2" *ngIf="clienteForm.get('username')?.hasError('required') && clienteForm.get('username')?.touched">Username is required.</p>
+        <p class="text-brand text-xs font-sans font-medium mt-1 ml-2" *ngIf="clienteForm.get('username')?.hasError('usernameExiste') && clienteForm.get('username')?.touched">Username already exists.</p>
+      </div>
+
+      <!-- Password -->
+      <div class="relative">
+        <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand focus-within:ring-1 focus-within:ring-brand transition-all">
+          <ion-icon name="lock-closed-outline" slot="start" class="opacity-50 ml-1"></ion-icon>
+          <ion-input label="Password" labelPlacement="floating" formControlName="password" type="password" class="font-sans font-medium"></ion-input>
+        </ion-item>
+        <p class="text-brand text-xs font-sans font-medium mt-1 ml-2" *ngIf="clienteForm.get('password')?.hasError('required') && clienteForm.get('password')?.touched">Password is required.</p>
+        <p class="text-brand text-xs font-sans font-medium mt-1 ml-2" *ngIf="clienteForm.get('password')?.hasError('contrasenaInvalida') && clienteForm.get('password')?.touched">Min 8 characters, 1 uppercase, 1 lowercase, 1 number.</p>
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="relative">
+        <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand focus-within:ring-1 focus-within:ring-brand transition-all">
+          <ion-icon name="lock-closed-outline" slot="start" class="opacity-50 ml-1"></ion-icon>
+          <ion-input label="Confirm Password" labelPlacement="floating" formControlName="confirmarPassword" type="password" class="font-sans font-medium"></ion-input>
+        </ion-item>
+        <p class="text-brand text-xs font-sans font-medium mt-1 ml-2" *ngIf="clienteForm.hasError('contrasenasNoCoinciden') && clienteForm.get('confirmarPassword')?.touched">Passwords do not match.</p>
+      </div>
+
+      <div class="pt-6 pb-4">
+        <button type="submit" [disabled]="clienteForm.invalid" class="w-full py-4 bg-brand text-white rounded-2xl font-sans font-bold text-lg shadow-[0_4px_15px_rgba(255,71,87,0.3)] hover:bg-brand-dark disabled:opacity-50 disabled:shadow-none transform active:scale-95 transition-all duration-200">
+          Sign Up
+        </button>
+      </div>
+    </form>
+  </div>
+</ion-content>

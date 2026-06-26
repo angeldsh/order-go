@@ -1,0 +1,40 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="flex flex-col items-center justify-center min-h-screen px-6 py-12">
+    
+    <!-- Hero / Logo Section -->
+    <div class="mb-14 animate-fade-in-down flex flex-col items-center">
+      <div class="w-36 h-36 rounded-[2.5rem] bg-white shadow-[0_8px_30px_rgb(0,0,0,0.08)] flex items-center justify-center mb-8 overflow-hidden border-4 border-brand-light">
+        <img src="assets/icon/logo.png" alt="Order & Go Logo" class="object-cover w-full h-full p-3" />
+      </div>
+      <h1 class="text-4xl md:text-5xl font-display font-extrabold tracking-tight text-center leading-tight">
+        Order <span class="text-brand">&</span> Go
+      </h1>
+      <p class="opacity-70 mt-4 text-center text-lg max-w-sm font-sans font-medium">
+        Your favorite food, delivered or at your table instantly.
+      </p>
+    </div>
+
+    <!-- Actions Section -->
+    <div class="w-full max-w-sm space-y-5 animate-fade-in-up">
+      <button 
+        (click)="pedirEnLocal()" 
+        class="w-full py-4 px-6 bg-brand hover:bg-brand-dark text-white rounded-2xl shadow-[0_8px_25px_rgba(255,71,87,0.35)] transform active:scale-95 transition-all duration-200 font-sans font-bold text-[17px] flex items-center justify-center space-x-3">
+        <ion-icon name="restaurant-outline" class="text-2xl"></ion-icon>
+        <span>Order at table</span>
+      </button>
+
+      <button 
+        (click)="pedirADomicilio()" 
+        class="w-full py-4 px-6 ion-color-light bg-[var(--ion-color-light)] text-[var(--ion-color-dark)] rounded-2xl shadow-sm transform active:scale-95 transition-all duration-200 font-sans font-bold text-[17px] flex items-center justify-center space-x-3 border-2 border-transparent hover:border-brand-light">
+        <ion-icon name="bicycle-outline" class="text-2xl text-brand"></ion-icon>
+        <span>Delivery</span>
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <div class="absolute bottom-8 w-full text-center">
+      <p class="text-sm opacity-50 font-sans font-medium">&copy; 2026 Order & Go. All rights reserved.</p>
+    </div>
+
+  </div>
+</ion-content>

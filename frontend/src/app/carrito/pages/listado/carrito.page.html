@@ -1,0 +1,82 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="bg-[var(--ion-background-color)]">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" color="dark" class="bg-[var(--ion-color-step-100)] backdrop-blur-md rounded-full ml-2"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="font-display font-extrabold text-[22px] text-center pr-16 text-[var(--ion-text-color)]">Your Order</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="px-5 py-6 min-h-screen flex flex-col">
+    
+    <div class="mb-6 flex justify-between items-center">
+      <h2 class="text-[28px] font-extrabold font-display text-[var(--ion-text-color)]">Summary</h2>
+      <button routerLink="/carta-domicilio" class="text-sm font-sans font-bold text-brand bg-brand/10 px-4 py-2 rounded-full flex items-center hover:bg-brand hover:text-white transition-all duration-300">
+        <ion-icon name="add-outline" class="mr-1 text-lg"></ion-icon> Add
+      </button>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="productosEnCarrito.length === 0" class="flex-1 flex flex-col items-center justify-center text-center px-4 mt-10">
+      <div class="w-36 h-36 bg-[var(--ion-color-step-50)] rounded-full flex items-center justify-center mb-8 shadow-inner border border-[var(--ion-color-step-150)]">
+        <ion-icon name="cart-outline" class="text-7xl opacity-30"></ion-icon>
+      </div>
+      <h3 class="text-2xl font-display font-extrabold text-[var(--ion-text-color)] mb-3">Your cart is empty</h3>
+      <p class="opacity-70 font-sans font-medium mb-10 text-lg">It looks like you haven't added anything delicious to your order yet.</p>
+      <button routerLink="/carta-domicilio" class="bg-brand text-white font-sans font-bold text-lg py-4 px-10 rounded-[1.25rem] shadow-[0_4px_20px_rgba(255,71,87,0.35)] hover:bg-brand-dark transform active:scale-95 transition-all">
+        View menu
+      </button>
+    </div>
+
+    <!-- Cart Items -->
+    <div *ngIf="productosEnCarrito.length > 0" class="space-y-5 mb-8 flex-1">
+      <div *ngFor="let item of productosEnCarrito" class="bg-[var(--ion-background-color)] p-4 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] dark:shadow-none border border-[var(--ion-color-step-150)] flex items-center">
+        <!-- Product Image -->
+        <div class="w-24 h-24 bg-[var(--ion-color-step-50)] rounded-[1.25rem] overflow-hidden flex-shrink-0 shadow-inner">
+          <img [src]="item.producto.imagen" alt="{{ item.producto.nombre }}" class="w-full h-full object-cover" />
+        </div>
+        
+        <!-- Product Info -->
+        <div class="ml-5 flex-1 flex flex-col h-24 justify-between">
+          <div class="flex justify-between items-start">
+            <h3 class="font-sans font-bold text-[var(--ion-text-color)] text-[15px] leading-tight line-clamp-2 pr-2">
+              {{ item.producto.nombre }}
+            </h3>
+            <button (click)="eliminarProducto(item.producto)" class="opacity-60 hover:opacity-100 hover:text-[var(--ion-color-danger)] transition-colors p-1 bg-[var(--ion-color-step-50)] rounded-full">
+              <ion-icon name="trash-outline" class="text-xl"></ion-icon>
+            </button>
+          </div>
+          
+          <div class="flex justify-between items-center mt-auto">
+            <span class="font-extrabold text-brand text-[1.1rem]">{{ item.producto.precio }} €</span>
+            
+            <!-- Quantity Controls -->
+            <div class="flex items-center bg-[var(--ion-color-step-50)] rounded-full p-1 border border-[var(--ion-color-step-150)]">
+              <button (click)="reducirCantidad(item.producto)" class="w-8 h-8 flex items-center justify-center opacity-70 hover:opacity-100 hover:text-brand bg-[var(--ion-background-color)] rounded-full shadow-sm transition-all">
+                <ion-icon name="remove-outline"></ion-icon>
+              </button>
+              <span class="w-8 text-center font-sans font-extrabold text-[15px] text-[var(--ion-text-color)]">{{ item.cantidad }}</span>
+              <button (click)="aumentarCantidad(item.producto)" class="w-8 h-8 flex items-center justify-center text-white bg-brand rounded-full shadow-md hover:bg-brand-dark transition-all">
+                <ion-icon name="add-outline"></ion-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total and Checkout -->
+    <div *ngIf="productosEnCarrito.length > 0" class="mt-auto pt-6 border-t-2 border-dashed border-[var(--ion-color-step-150)] pb-4">
+      <div class="flex justify-between items-end mb-8 px-1">
+        <span class="opacity-60 font-sans font-bold text-lg uppercase tracking-wider">Total</span>
+        <span class="text-4xl font-display font-extrabold text-[var(--ion-text-color)]">{{ totalPrecio }} <span class="text-2xl text-brand">€</span></span>
+      </div>
+      
+      <button (click)="validarCarrito()" class="w-full bg-brand text-white font-sans font-bold text-xl py-5 rounded-[1.5rem] shadow-[0_8px_30px_rgb(255,71,87,0.3)] hover:shadow-[0_10px_40px_rgb(255,71,87,0.4)] transform active:scale-95 transition-all duration-300">
+        Confirm Order
+      </button>
+    </div>
+
+  </div>
+</ion-content>

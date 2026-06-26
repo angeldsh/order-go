@@ -1,0 +1,146 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="bg-[var(--ion-background-color)] border-b border-[var(--ion-color-step-100)]">
+    <ion-buttons slot="start">
+      <ion-menu-button class="text-[var(--ion-text-color)]"></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="font-display font-bold text-xl text-[var(--ion-text-color)]">My Profile</ion-title>
+    <ion-buttons slot="end" class="pr-2">
+      <button (click)="toggleEditMode()" class="w-10 h-10 rounded-full bg-[var(--ion-color-step-50)] text-brand flex items-center justify-center hover:bg-[var(--ion-color-step-100)] transition-colors active:scale-95">
+        <ion-icon [name]="editMode ? 'checkmark-outline' : 'create-outline'" class="text-xl"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg-[var(--ion-background-color)]" [fullscreen]="true">
+  <div class="max-w-2xl mx-auto px-5 py-8 pb-24" *ngIf="cliente">
+    
+    <!-- User Avatar & Basic Info -->
+    <div class="flex flex-col items-center mb-10">
+      <div class="w-24 h-24 bg-brand/10 text-brand rounded-full flex items-center justify-center mb-4 border-4 border-[var(--ion-color-step-50)] shadow-sm">
+        <ion-icon name="person" class="text-4xl"></ion-icon>
+      </div>
+      
+      <div *ngIf="!editMode" class="text-center">
+        <h2 class="font-display font-extrabold text-2xl text-[var(--ion-text-color)]">{{ cliente.usuario.nombre }} {{ cliente.usuario.apellidos }}</h2>
+        <p class="text-[var(--ion-color-step-500)] text-sm font-sans mt-1">{{ cliente.usuario.email }}</p>
+      </div>
+
+      <div *ngIf="editMode" class="w-full flex flex-col gap-3">
+        <input type="text" [(ngModel)]="cliente.usuario.nombre" placeholder="First Name" 
+               class="w-full bg-[var(--ion-color-step-50)] text-[var(--ion-text-color)] border border-[var(--ion-color-step-150)] rounded-xl px-4 py-3 outline-none focus:border-brand transition-colors text-center font-bold">
+        <input type="text" [(ngModel)]="cliente.usuario.apellidos" placeholder="Last Name" 
+               class="w-full bg-[var(--ion-color-step-50)] text-[var(--ion-text-color)] border border-[var(--ion-color-step-150)] rounded-xl px-4 py-3 outline-none focus:border-brand transition-colors text-center font-bold">
+      </div>
+    </div>
+
+    <!-- Personal Info Block -->
+    <div class="mb-8">
+      <h3 class="text-xs font-bold uppercase tracking-wider text-[var(--ion-color-step-500)] mb-3 pl-2">Personal Info</h3>
+      
+      <div class="bg-[var(--ion-background-color)] border border-[var(--ion-color-step-150)] rounded-2xl shadow-[0_4px_20px_rgb(0,0,0,0.02)] overflow-hidden">
+        
+        <!-- Username -->
+        <div class="flex items-center justify-between p-4 border-b border-[var(--ion-color-step-100)]">
+          <div class="flex items-center gap-3">
+            <ion-icon name="at-outline" class="text-[var(--ion-color-step-400)] text-xl"></ion-icon>
+            <span class="text-[var(--ion-text-color)] font-semibold">Username</span>
+          </div>
+          <span class="text-[var(--ion-color-step-500)]">{{ cliente.usuario.username }}</span>
+        </div>
+
+        <!-- NIF -->
+        <div class="flex items-center justify-between p-4 border-b border-[var(--ion-color-step-100)]">
+          <div class="flex items-center gap-3">
+            <ion-icon name="card-outline" class="text-[var(--ion-color-step-400)] text-xl"></ion-icon>
+            <span class="text-[var(--ion-text-color)] font-semibold">NIF</span>
+          </div>
+          <span *ngIf="!editMode" class="text-[var(--ion-color-step-500)]">{{ cliente.nif }}</span>
+          <input *ngIf="editMode" type="text" [(ngModel)]="cliente.nif" (ngModelChange)="validarNif()" placeholder="NIF"
+                 class="bg-transparent text-right text-[var(--ion-text-color)] outline-none w-1/2">
+        </div>
+        <div *ngIf="nifInvalido && editMode" class="bg-red-50 dark:bg-red-900/20 text-red-500 text-xs px-4 py-2 border-b border-[var(--ion-color-step-100)]">
+          Invalid NIF format.
+        </div>
+
+        <!-- Telefono -->
+        <div class="flex items-center justify-between p-4">
+          <div class="flex items-center gap-3">
+            <ion-icon name="call-outline" class="text-[var(--ion-color-step-400)] text-xl"></ion-icon>
+            <span class="text-[var(--ion-text-color)] font-semibold">Phone</span>
+          </div>
+          <span *ngIf="!editMode" class="text-[var(--ion-color-step-500)]">{{ cliente.telefono }}</span>
+          <input *ngIf="editMode" type="tel" [(ngModel)]="cliente.telefono" (ngModelChange)="validarTelefono()" placeholder="Phone"
+                 class="bg-transparent text-right text-[var(--ion-text-color)] outline-none w-1/2">
+        </div>
+        <div *ngIf="telefonoInvalido && editMode" class="bg-red-50 dark:bg-red-900/20 text-red-500 text-xs px-4 py-2">
+          Invalid phone number.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Direcciones Block -->
+    <div>
+      <div class="flex justify-between items-center mb-3 px-2">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-[var(--ion-color-step-500)]">My Addresses</h3>
+        <button (click)="toggleAddAddressForm()" class="text-brand font-bold text-sm hover:underline flex items-center gap-1">
+          <ion-icon name="add-circle-outline"></ion-icon> Add
+        </button>
+      </div>
+
+      <!-- Add Form -->
+      <div *ngIf="showAddAddressForm" class="bg-[var(--ion-color-step-50)] border border-brand/30 rounded-2xl p-4 mb-4 animate-fade-in">
+        <h4 class="font-bold text-[var(--ion-text-color)] mb-3">New Address</h4>
+        <input type="text" [(ngModel)]="newAddress.direccion" placeholder="Street, number, floor..."
+               class="w-full bg-[var(--ion-background-color)] text-[var(--ion-text-color)] border border-[var(--ion-color-step-150)] rounded-xl px-4 py-3 outline-none focus:border-brand transition-colors mb-3">
+        <input type="text" [(ngModel)]="newAddress.cp" (ngModelChange)="validarCpNuevo()" placeholder="Zip Code"
+               class="w-full bg-[var(--ion-background-color)] text-[var(--ion-text-color)] border border-[var(--ion-color-step-150)] rounded-xl px-4 py-3 outline-none focus:border-brand transition-colors mb-4">
+               
+        <p *ngIf="newAddress.cp && cpInvalidoNew" class="text-red-500 text-xs mb-3 -mt-2">Invalid zip code.</p>
+        
+        <div class="flex gap-2">
+          <button (click)="agregarDireccion()" [disabled]="!newAddress.direccion || !newAddress.cp || cpInvalidoNew" 
+                  class="flex-1 bg-brand text-white font-bold py-3 rounded-xl hover:bg-brand-dark transition disabled:opacity-50 disabled:cursor-not-allowed">
+            Save
+          </button>
+          <button (click)="toggleAddAddressForm()" class="flex-1 bg-[var(--ion-color-step-150)] text-[var(--ion-text-color)] font-bold py-3 rounded-xl hover:bg-[var(--ion-color-step-200)] transition">
+            Cancel
+          </button>
+        </div>
+      </div>
+
+      <!-- List -->
+      <div class="space-y-3">
+        <div *ngFor="let direccion of direcciones" class="bg-[var(--ion-background-color)] border border-[var(--ion-color-step-150)] rounded-2xl p-4 flex justify-between items-center group shadow-[0_2px_10px_rgb(0,0,0,0.02)]">
+          <div class="flex-1">
+            <div *ngIf="!editMode">
+              <p class="font-bold text-[var(--ion-text-color)]">{{ direccion.direccion }}</p>
+              <p class="text-[var(--ion-color-step-500)] text-sm">Zip {{ direccion.cp }}</p>
+            </div>
+            <div *ngIf="editMode" class="space-y-2 pr-4">
+              <input type="text" [(ngModel)]="direccion.direccion" placeholder="Address"
+                     class="w-full bg-[var(--ion-color-step-50)] text-[var(--ion-text-color)] border border-[var(--ion-color-step-150)] rounded-lg px-3 py-2 outline-none focus:border-brand text-sm">
+              <input type="text" [(ngModel)]="direccion.cp" (ngModelChange)="validarCp(direccion)" placeholder="Zip Code"
+                     class="w-full bg-[var(--ion-color-step-50)] text-[var(--ion-text-color)] border border-[var(--ion-color-step-150)] rounded-lg px-3 py-2 outline-none focus:border-brand text-sm">
+              <p *ngIf="direccion.cp && !direccion.cpValido" class="text-red-500 text-xs">Invalid zip code.</p>
+            </div>
+          </div>
+          
+          <button *ngIf="editMode" (click)="eliminarDireccion(direccion)" class="w-10 h-10 rounded-full bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 flex items-center justify-center hover:scale-105 transition-transform flex-shrink-0">
+            <ion-icon name="trash" class="text-lg"></ion-icon>
+          </button>
+        </div>
+        
+        <div *ngIf="direcciones.length === 0 && !showAddAddressForm" class="text-center py-8">
+          <p class="text-[var(--ion-color-step-500)] text-sm">You don't have any saved addresses.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div *ngIf="!cliente" class="w-full h-full flex items-center justify-center">
+    <ion-spinner name="crescent" class="text-brand scale-150"></ion-spinner>
+  </div>
+</ion-content>

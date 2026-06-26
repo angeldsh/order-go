@@ -1,0 +1,172 @@
+<div class="h-full flex flex-col">
+  <!-- Top Bar -->
+  <div class="flex justify-between items-center mb-6 px-2">
+    <h2 class="text-xl font-display font-bold tracking-tight text-[var(--ion-text-color)]">Order Status</h2>
+    <button (click)="toggleMostrarCompletados()" class="flex items-center space-x-2 px-4 py-2 bg-brand-50 hover:bg-brand-100 text-brand rounded-xl font-medium transition-colors text-sm focus:outline-none">
+      <ion-icon [name]="mostrarCompletados ? 'eye-off-outline' : 'eye-outline'" class="text-lg"></ion-icon>
+      <span>{{ mostrarCompletados ? 'Hide Completed' : 'Show Completed' }}</span>
+    </button>
+  </div>
+
+  <!-- Kanban Board -->
+  <div class="flex-1 overflow-x-auto pb-4 snap-x">
+    <div class="flex gap-6 min-w-max h-full px-2" [ngClass]="mostrarCompletados ? 'w-[1200px]' : 'w-[900px]'">
+      
+      <!-- Columns -->
+      <ng-container *ngFor="let estado of ['pendiente', 'preparando', 'enviado', 'completado']">
+        <div *ngIf="estado !== 'completado' || mostrarCompletados" class="w-72 flex flex-col bg-[var(--ion-color-step-50)] rounded-3xl border border-[var(--ion-color-step-100)] overflow-hidden snap-start shrink-0 h-full max-h-[calc(100vh-200px)]">
+          
+          <!-- Column Header -->
+          <div class="px-5 py-4 border-b border-[var(--ion-color-step-100)] flex justify-between items-center bg-[var(--ion-background-color)]">
+            <h3 class="font-bold uppercase tracking-wider text-sm flex items-center space-x-2"
+                [ngClass]="{
+                  'text-amber-500': estado === 'pendiente',
+                  'text-blue-500': estado === 'preparando',
+                  'text-indigo-500': estado === 'enviado',
+                  'text-emerald-500': estado === 'completado'
+                }">
+              <div class="w-2.5 h-2.5 rounded-full"
+                   [ngClass]="{
+                     'bg-amber-500': estado === 'pendiente',
+                     'bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]': estado === 'preparando',
+                     'bg-indigo-500': estado === 'enviado',
+                     'bg-emerald-500': estado === 'completado'
+                   }"></div>
+              <span>
+                {{ estado === 'pendiente' ? 'Pending' : 
+                   estado === 'preparando' ? 'Preparing' : 
+                   estado === 'enviado' ? 'Sent' : 'Completed' }}
+              </span>
+            </h3>
+            <span class="bg-[var(--ion-color-step-100)] text-[var(--ion-color-step-600)] text-xs font-bold px-2.5 py-0.5 rounded-full">
+              {{ pedidosPorEstado(estado).length }}
+            </span>
+          </div>
+
+          <!-- Column Cards Container -->
+          <div class="flex-1 overflow-y-auto p-3 space-y-4">
+            
+            <!-- Empty State -->
+            <div *ngIf="pedidosPorEstado(estado).length === 0" class="h-32 flex flex-col items-center justify-center text-[var(--ion-color-step-400)] border-2 border-dashed border-[var(--ion-color-step-150)] rounded-2xl bg-[var(--ion-background-color)]">
+              <ion-icon name="file-tray-outline" class="text-2xl mb-2"></ion-icon>
+              <span class="text-sm font-medium">No orders</span>
+            </div>
+
+            <!-- Order Cards -->
+            <div *ngFor="let pedido of pedidosPorEstado(estado); let i = index" class="bg-[var(--ion-background-color)] rounded-2xl shadow-sm border border-[var(--ion-color-step-150)] p-4 hover:shadow-md transition-shadow relative overflow-hidden group">
+              
+              <!-- Card Accent Line -->
+              <div class="absolute left-0 top-0 bottom-0 w-1"
+                   [ngClass]="{
+                     'bg-amber-500': estado === 'pendiente',
+                     'bg-blue-500': estado === 'preparando',
+                     'bg-indigo-500': estado === 'enviado',
+                     'bg-emerald-500': estado === 'completado'
+                   }"></div>
+
+              <!-- Card Header -->
+              <div class="flex justify-between items-start mb-3 ml-2">
+                <div>
+                  <span class="inline-block px-2 py-1 bg-[var(--ion-color-step-50)] text-[var(--ion-color-step-600)] text-[10px] font-bold uppercase tracking-wider rounded-md mb-1 border border-[var(--ion-color-step-100)]">
+                    {{ pedido.tipo === 'a_domicilio' ? 'Delivery' : 'Dine-in' }}
+                  </span>
+                  <div class="font-bold text-base text-[var(--ion-text-color)]">
+                    {{ pedido.fecha | date : "HH:mm" }}
+                  </div>
+                  <div class="text-xs text-[var(--ion-color-step-500)]">
+                    {{ pedido.fecha | date : "dd MMM" }}
+                  </div>
+                </div>
+                
+                <!-- Animated Status Icons -->
+                <div *ngIf="estado === 'preparando'" class="flex items-center justify-center w-6 h-6 rounded-full bg-blue-50 text-blue-500">
+                  <ion-icon name="sync-outline" class="animate-spin text-sm"></ion-icon>
+                </div>
+                <div *ngIf="estado === 'enviado'" class="flex items-center justify-center w-6 h-6 rounded-full bg-indigo-50 text-indigo-500">
+                  <ion-icon name="paper-plane-outline" class="animate-pulse text-sm"></ion-icon>
+                </div>
+              </div>
+
+              <!-- Order Details -->
+              <div class="space-y-2 mb-4 ml-2">
+                <div *ngIf="pedido.direccion && pedido.direccion.direccion" class="flex items-start space-x-2 text-sm text-[var(--ion-color-step-600)]">
+                  <ion-icon name="location-outline" class="text-brand mt-0.5 shrink-0"></ion-icon>
+                  <span class="line-clamp-2 leading-tight">{{ pedido.direccion.direccion }}</span>
+                </div>
+                <div *ngIf="pedido.ticket && pedido.ticket.mesa" class="flex items-center space-x-2 text-sm font-medium text-[var(--ion-text-color)] bg-brand-50 text-brand px-2.5 py-1.5 rounded-lg w-max">
+                  <ion-icon name="restaurant-outline" class="text-brand"></ion-icon>
+                  <span>Table {{ pedido.ticket.mesa.numero }}</span>
+                </div>
+              </div>
+
+              <!-- Items Summary -->
+              <div class="bg-[var(--ion-color-step-50)] rounded-xl p-3 mb-4 ml-2 border border-[var(--ion-color-step-100)]">
+                <div *ngIf="pedido.id !== null && detallesPedidos[pedido.id]; else loadingItems" class="space-y-1.5">
+                  <div *ngFor="let detalle of detallesPedidos[pedido.id]" class="flex justify-between text-xs">
+                    <span class="text-[var(--ion-text-color)] font-medium flex-1 truncate pr-2">
+                      <span class="text-brand mr-1">{{ detalle.cantidad }}x</span> {{ detalle.producto.nombre }}
+                    </span>
+                    <span class="text-[var(--ion-color-step-500)] font-semibold shrink-0">{{ detalle.precio * detalle.cantidad }}€</span>
+                  </div>
+                </div>
+                <ng-template #loadingItems>
+                  <div class="flex items-center space-x-2 text-xs text-[var(--ion-color-step-500)]">
+                    <ion-spinner name="dots" class="w-4 h-4"></ion-spinner>
+                    <span>Loading items...</span>
+                  </div>
+                </ng-template>
+              </div>
+
+              <!-- Status Action -->
+              <div class="ml-2 flex gap-2">
+                <button *ngIf="estado === 'pendiente'" (click)="pedido.estado = 'preparando'; actualizarEstado(pedido)" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white text-sm font-bold py-2 px-3 rounded-xl transition-colors flex items-center justify-center gap-1 shadow-sm">
+                  <ion-icon name="play-outline"></ion-icon> Start Preparing
+                </button>
+                <button *ngIf="estado === 'preparando'" (click)="pedido.estado = 'enviado'; actualizarEstado(pedido)" class="flex-1 bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-bold py-2 px-3 rounded-xl transition-colors flex items-center justify-center gap-1 shadow-sm">
+                  <ion-icon name="paper-plane-outline"></ion-icon> Mark as Sent
+                </button>
+                <button *ngIf="estado === 'enviado'" (click)="pedido.estado = 'completado'; actualizarEstado(pedido)" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-bold py-2 px-3 rounded-xl transition-colors flex items-center justify-center gap-1 shadow-sm">
+                  <ion-icon name="checkmark-done-outline"></ion-icon> Complete Order
+                </button>
+                
+                <!-- Elegant Popover Menu for arbitrary state changes -->
+                <div class="relative shrink-0">
+                  <button [id]="'trigger-' + estado + '-' + i" class="w-10 h-full bg-[var(--ion-color-step-100)] hover:bg-[var(--ion-color-step-200)] rounded-xl flex items-center justify-center transition-colors border border-[var(--ion-color-step-200)] focus:outline-none">
+                    <ion-icon name="ellipsis-vertical" class="text-[var(--ion-color-step-600)] text-lg pointer-events-none"></ion-icon>
+                  </button>
+                  <ion-popover [trigger]="'trigger-' + estado + '-' + i" dismissOnSelect="true" alignment="end" class="--offset-y-2">
+                    <ng-template>
+                      <ion-list lines="none" class="m-0 py-1">
+                        <ion-list-header class="min-h-0 pt-2 pb-1">
+                          <ion-label class="text-xs font-bold uppercase tracking-wider text-[var(--ion-color-step-400)] m-0">Change Status</ion-label>
+                        </ion-list-header>
+                        <ion-item button (click)="pedido.estado = 'pendiente'; actualizarEstado(pedido)" [color]="pedido.estado === 'pendiente' ? 'light' : ''">
+                          <ion-icon name="time-outline" slot="start" class="text-amber-500 text-lg mr-3"></ion-icon>
+                          <ion-label class="font-medium text-sm">Pending</ion-label>
+                        </ion-item>
+                        <ion-item button (click)="pedido.estado = 'preparando'; actualizarEstado(pedido)" [color]="pedido.estado === 'preparando' ? 'light' : ''">
+                          <ion-icon name="sync-outline" slot="start" class="text-blue-500 text-lg mr-3"></ion-icon>
+                          <ion-label class="font-medium text-sm">Preparing</ion-label>
+                        </ion-item>
+                        <ion-item button (click)="pedido.estado = 'enviado'; actualizarEstado(pedido)" [color]="pedido.estado === 'enviado' ? 'light' : ''">
+                          <ion-icon name="paper-plane-outline" slot="start" class="text-indigo-500 text-lg mr-3"></ion-icon>
+                          <ion-label class="font-medium text-sm">Sent</ion-label>
+                        </ion-item>
+                        <ion-item button (click)="pedido.estado = 'completado'; actualizarEstado(pedido)" [color]="pedido.estado === 'completado' ? 'light' : ''">
+                          <ion-icon name="checkmark-done-outline" slot="start" class="text-emerald-500 text-lg mr-3"></ion-icon>
+                          <ion-label class="font-medium text-sm">Completed</ion-label>
+                        </ion-item>
+                      </ion-list>
+                    </ng-template>
+                  </ion-popover>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+    </div>
+  </div>
+</div>

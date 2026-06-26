@@ -1,0 +1,71 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="bg-transparent" color="transparent">
+    <ion-title class="font-sans font-bold text-lg text-[var(--ion-text-color)]">{{ producto ? 'Edit Product' : 'Add Product' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()" class="text-[var(--ion-color-step-600)]">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding font-sans bg-[var(--ion-background-color)]">
+  <div class="px-4 py-2">
+    <form [formGroup]="productoForm" (ngSubmit)="guardarCambios()" class="space-y-4">
+      
+      <div class="grid grid-cols-2 gap-4">
+        <!-- Name -->
+        <div class="relative">
+          <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand transition-colors">
+            <ion-input label="Name" label-placement="floating" formControlName="nombre" class="font-sans" required></ion-input>
+          </ion-item>
+          <p class="text-brand text-xs font-sans font-medium mt-1 ml-2" *ngIf="productoForm.get('nombre')?.hasError('required') && productoForm.get('nombre')?.touched">Name is required.</p>
+        </div>
+
+        <!-- Price -->
+        <div class="relative">
+          <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand transition-colors">
+            <ion-input label="Price" label-placement="floating" formControlName="precio" type="number" class="font-sans" required></ion-input>
+          </ion-item>
+          <p class="text-brand text-xs font-sans font-medium mt-1 ml-2" *ngIf="productoForm.get('precio')?.hasError('required') && productoForm.get('precio')?.touched">Price is required.</p>
+          <p class="text-brand text-xs font-sans font-medium mt-1 ml-2" *ngIf="productoForm.get('precio')?.hasError('precioInvalido') && productoForm.get('precio')?.touched">Invalid price.</p>
+        </div>
+      </div>
+
+      <!-- Category -->
+      <div class="relative">
+        <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand transition-colors">
+          <ion-select label="Category" label-placement="floating" formControlName="categoria" interface="popover" class="font-sans" required>
+            <ion-select-option *ngFor="let categoria of categorias" [value]="categoria.id">
+              {{ categoria.nombre }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+
+      <!-- Description -->
+      <div class="relative">
+        <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand transition-colors">
+          <ion-input label="Description" label-placement="floating" formControlName="descripcion" class="font-sans" required></ion-input>
+        </ion-item>
+        <p class="text-brand text-xs font-sans font-medium mt-1 ml-2" *ngIf="productoForm.get('descripcion')?.hasError('required') && productoForm.get('descripcion')?.touched">Description is required.</p>
+      </div>
+
+      <!-- Image -->
+      <div class="relative bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm p-4">
+        <p class="text-sm font-sans font-medium text-[var(--ion-color-step-600)] mb-2">Image</p>
+        <input type="file" (change)="onFileChange($event)" class="text-sm font-sans w-full file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brand-light file:text-brand hover:file:bg-brand-100 transition-all"/>
+        <div class="mt-4 flex justify-center" *ngIf="imagenURL">
+          <ion-img [src]="imagenURL" alt="Image preview" class="w-64 h-44 object-cover rounded-xl shadow-md border border-[var(--ion-color-step-100)]"></ion-img>
+        </div>
+      </div>
+
+      <div class="pt-4">
+        <ion-button type="submit" expand="block" [disabled]="productoForm.invalid" class="h-12 font-sans font-bold shadow-md rounded-2xl overflow-hidden" color="primary">
+          {{ producto ? 'Save Changes' : 'Add Product' }}
+        </ion-button>
+      </div>
+
+    </form>
+  </div>
+</ion-content>

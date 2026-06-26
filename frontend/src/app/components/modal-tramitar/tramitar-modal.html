@@ -1,0 +1,39 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="bg-transparent" color="transparent">
+    <ion-title class="font-sans font-bold text-lg text-[var(--ion-text-color)]">Confirm Order</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrarModal()" class="text-[var(--ion-color-step-600)]">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding font-sans bg-[var(--ion-background-color)]">
+  <div class="px-4 py-2">
+    <div class="bg-[var(--ion-color-step-50)] rounded-2xl shadow-sm p-4 mb-6">
+      <ion-list lines="none" class="bg-transparent">
+        <ion-item *ngFor="let item of productosEnCarrito" class="--background-transparent mb-2 bg-transparent rounded-lg">
+          <div class="flex justify-between w-full font-sans text-[var(--ion-text-color)]">
+            <span><span class="font-bold mr-2">{{ item.cantidad }}x</span> {{ item.producto.nombre }}</span>
+            <span class="font-semibold">{{ item.producto.precio }} €</span>
+          </div>
+        </ion-item>
+      </ion-list>
+      <div class="border-t border-[var(--ion-color-step-150)] my-2"></div>
+      <div class="flex justify-between w-full font-sans text-[var(--ion-text-color)] font-bold px-4 py-2 text-lg">
+        <span>Total</span>
+        <span class="text-brand">{{ total }} €</span>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-3">
+      <ion-button expand="block" (click)="confirmarPedido()" class="h-12 font-sans font-bold shadow-md rounded-2xl overflow-hidden" color="primary">
+        Confirm Order
+      </ion-button>
+      <ion-button expand="block" fill="clear" (click)="cerrarModal()" class="h-12 font-sans font-semibold text-[var(--ion-color-step-600)]" color="medium">
+        Cancel
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

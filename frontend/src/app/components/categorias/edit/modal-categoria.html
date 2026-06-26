@@ -1,0 +1,48 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="bg-transparent" color="transparent">
+    <ion-title class="font-sans font-bold text-lg text-[var(--ion-text-color)]"
+      >{{ categoria ? 'Edit Category' : 'Add Category' }}</ion-title
+    >
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()" class="text-[var(--ion-color-step-600)]">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding font-sans bg-[var(--ion-background-color)]">
+  <div class="px-4 py-2">
+    <form [formGroup]="categoriaForm" (ngSubmit)="guardarCambios()" class="space-y-4">
+      <div class="relative">
+        <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand transition-colors">
+          <ion-input
+            label="Name"
+            label-placement="floating"
+            formControlName="nombre"
+            class="font-sans"
+            required
+          ></ion-input>
+        </ion-item>
+        <p
+          class="text-brand text-xs font-sans font-medium mt-1 ml-2"
+          *ngIf="categoriaForm.get('nombre')?.hasError('required') && categoriaForm.get('nombre')?.touched"
+        >
+          Category name is required.
+        </p>
+      </div>
+
+      <div class="pt-4">
+        <ion-button
+          type="submit"
+          expand="block"
+          [disabled]="categoriaForm.invalid"
+          class="h-12 font-sans font-bold shadow-md rounded-2xl overflow-hidden"
+          color="primary"
+        >
+          {{ categoria ? 'Save Changes' : 'Add Category' }}
+        </ion-button>
+      </div>
+    </form>
+  </div>
+</ion-content>

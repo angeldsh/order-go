@@ -1,0 +1,30 @@
+.scroll-container {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+
+   
+  }
+  .category-item {
+    display: inline-block;
+  }
+  .category-item.selected {
+    background: linear-gradient(to top, #b7ad7708, #8a5a00);
+    scroll-snap-align: center;
+
+  }
+  .pedido-card {
+    border: 2px solid black;  
+  }
+  
+  .custom-color {
+    --ion-color-primary: rgba(172, 111, 5, 0.557);
+    background-color: var(--ion-color-primary); 
+  }
+  
+  .custom-button {
+    --background: rgba(65, 116, 186, 0.927);
+    --color: #fff;
+  }

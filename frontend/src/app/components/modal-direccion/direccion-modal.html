@@ -1,0 +1,83 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="bg-transparent" color="transparent">
+    <ion-title class="font-sans font-bold text-lg text-[var(--ion-text-color)]">Select Address</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()" class="text-[var(--ion-color-step-600)]">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding font-sans bg-[var(--ion-background-color)]">
+  <div class="px-4 py-2">
+    <ion-list lines="none" class="bg-transparent mb-4">
+      <ion-item *ngFor="let direccion of direcciones" class="--background-transparent mb-3 bg-[var(--ion-color-step-50)] rounded-2xl shadow-sm border border-[var(--ion-color-step-150)]">
+        <ion-label class="font-sans font-medium text-[var(--ion-text-color)] text-base whitespace-normal">{{ direccion.direccion }}</ion-label>
+        <ion-button
+          slot="end"
+          class="font-sans font-semibold rounded-xl text-sm capitalize"
+          color="primary"
+          fill="solid"
+          (click)="seleccionarDireccion(direccion)"
+          >Select</ion-button
+        >
+      </ion-item>
+    </ion-list>
+
+    <ion-card *ngIf="mostrarFormulario" class="rounded-2xl shadow-md border border-[var(--ion-color-step-100)] bg-[var(--ion-background-color)] m-0 mb-6">
+      <div class="p-5">
+        <h2 class="font-display font-bold text-xl mb-4 text-[var(--ion-text-color)]">New Address</h2>
+        <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-xl border border-[var(--ion-color-step-150)] mb-2 focus-within:border-brand transition-colors">
+          <ion-input
+            label="Street Address"
+            label-placement="floating"
+            [(ngModel)]="nuevaDireccion.direccion"
+            class="font-sans"
+            required
+          ></ion-input>
+        </ion-item>
+        <p class="text-brand text-xs font-sans ml-2 mb-4" *ngIf="!nuevaDireccion.direccion">
+          Address is required
+        </p>
+
+        <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-xl border border-[var(--ion-color-step-150)] mb-2 focus-within:border-brand transition-colors">
+          <ion-input
+            label="Zip Code"
+            label-placement="floating"
+            [(ngModel)]="nuevaDireccion.cp"
+            (ngModelChange)="validarCp()"
+            class="font-sans"
+            required
+          ></ion-input>
+        </ion-item>
+        <p class="text-brand text-xs font-sans ml-2 mb-4" *ngIf="!cpValido">
+          Invalid Zip Code
+        </p>
+
+        <ion-button
+          expand="block"
+          class="mt-4 h-12 font-sans font-bold shadow-md rounded-xl overflow-hidden"
+          color="primary"
+          (click)="agregarDireccion()"
+          >Save Address</ion-button
+        >
+      </div>
+    </ion-card>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border bg-transparent">
+  <div class="px-4 pb-4 pt-2 bg-[var(--ion-background-color)]">
+    <ion-button
+      class="h-14 font-sans font-bold text-lg shadow-lg rounded-2xl overflow-hidden"
+      expand="block"
+      color="medium"
+      fill="outline"
+      (click)="toggleAgregarDireccion()"
+    >
+      <ion-icon [name]="mostrarFormulario ? 'close-outline' : 'add-outline'" slot="start"></ion-icon>
+      {{ mostrarFormulario ? 'Cancel' : 'Add Address' }}
+    </ion-button>
+  </div>
+</ion-footer>

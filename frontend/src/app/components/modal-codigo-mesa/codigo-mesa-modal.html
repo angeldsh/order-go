@@ -1,0 +1,47 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="bg-[var(--ion-background-color)]">
+    <ion-title class="font-display font-bold text-center text-lg mt-2 text-[var(--ion-text-color)]">Local Table</ion-title>
+    <ion-buttons slot="end" class="mr-2 mt-2">
+      <ion-button (click)="cerrarModal()" class="bg-[var(--ion-color-step-50)] rounded-full w-8 h-8">
+        <ion-icon slot="icon-only" name="close" class="opacity-70 text-[var(--ion-text-color)]"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg-[var(--ion-background-color)]">
+  <div class="px-6 py-4 flex flex-col h-full">
+    
+    <div class="text-center mb-6">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand-light text-brand mb-4 shadow-inner">
+        <ion-icon name="qr-code-outline" class="text-3xl"></ion-icon>
+      </div>
+      <p class="opacity-70 font-sans font-medium text-sm px-2">
+        Enter the code that appears on your table to start ordering.
+      </p>
+    </div>
+
+    <div class="mb-8">
+      <div class="relative">
+        <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border-2 border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand focus-within:ring-1 focus-within:ring-brand transition-all">
+          <ion-icon name="keypad-outline" slot="start" class="opacity-50 ml-1"></ion-icon>
+          <ion-input
+            type="text"
+            placeholder="Code e.g., TABLE-12"
+            [(ngModel)]="codigoMesa"
+            class="font-sans font-bold text-center text-lg tracking-widest uppercase"
+          ></ion-input>
+        </ion-item>
+      </div>
+    </div>
+
+    <div class="mt-auto pb-4">
+      <button 
+        (click)="guardarCodigo()"
+        class="w-full py-4 bg-brand text-white rounded-2xl font-sans font-bold text-lg shadow-[0_4px_15px_rgba(255,71,87,0.3)] hover:bg-brand-dark hover:shadow-[0_6px_20px_rgba(255,71,87,0.4)] transform active:scale-95 transition-all duration-200">
+        Confirm Code
+      </button>
+    </div>
+
+  </div>
+</ion-content>

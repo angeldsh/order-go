@@ -1,0 +1,49 @@
+<div class="bg-[var(--ion-color-step-50)] rounded-2xl shadow-sm border border-[var(--ion-color-step-100)] overflow-hidden">
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse font-sans min-w-max">
+      <thead>
+        <tr class="bg-[var(--ion-color-step-100)] text-[var(--ion-color-step-600)] text-xs uppercase tracking-wider font-semibold border-b border-[var(--ion-color-step-150)]">
+          <th class="px-6 py-4">NIF</th>
+          <th class="px-6 py-4">Username</th>
+          <th class="px-6 py-4">Name</th>
+          <th class="px-6 py-4">Position</th>
+          <th class="px-6 py-4">Phone</th>
+          <th class="px-6 py-4 text-center">Available</th>
+          <th class="px-6 py-4 text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-[var(--ion-color-step-100)] bg-[var(--ion-background-color)]">
+        <tr *ngFor="let empleado of empleados" class="hover:bg-[var(--ion-color-step-50)] transition-colors group">
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--ion-text-color)] font-medium">{{ empleado.nif }}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--ion-text-color)]">{{ empleado.usuario?.username }}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--ion-text-color)]">{{ empleado.usuario?.nombre }} {{ empleado.usuario?.apellidos }}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--ion-text-color)]">{{ empleado.puesto }}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--ion-text-color)]">{{ empleado.telefono }}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-center text-sm">
+            <span [class]="empleado.disponible ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'" class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full">
+              {{ empleado.disponible ? 'Yes' : 'No' }}
+            </span>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+            <div class="flex justify-end space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
+              <button (click)="editarEmpleado(empleado)" class="p-2 text-brand hover:bg-brand-100 rounded-lg transition-colors flex items-center justify-center focus:outline-none" title="Edit">
+                <ion-icon name="create-outline" class="text-xl"></ion-icon>
+              </button>
+              <button (click)="eliminarEmpleado(empleado)" class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors flex items-center justify-center focus:outline-none" title="Delete">
+                <ion-icon name="trash-outline" class="text-xl"></ion-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+        
+        <!-- Empty State -->
+        <tr *ngIf="empleados.length === 0">
+          <td colspan="7" class="px-6 py-12 text-center text-[var(--ion-color-step-500)] text-sm">
+            <ion-icon name="briefcase-outline" class="text-4xl mb-3 text-[var(--ion-color-step-300)]"></ion-icon>
+            <p>No employees found.</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

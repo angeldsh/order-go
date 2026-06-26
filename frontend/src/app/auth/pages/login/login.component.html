@@ -1,0 +1,85 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="flex flex-col justify-center min-h-screen px-4 py-8 animate-fade-in-up">
+    
+    <!-- Back Button -->
+    <div class="absolute top-4 left-4 z-10">
+      <ion-buttons>
+        <ion-back-button defaultHref="/" color="dark" class="bg-white/50 backdrop-blur-md rounded-full dark:bg-[var(--ion-color-step-100)] dark:text-white"></ion-back-button>
+      </ion-buttons>
+    </div>
+
+    <div class="w-full max-w-md mx-auto bg-[var(--ion-background-color)] rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.06)] dark:shadow-none overflow-hidden border border-[var(--ion-color-step-150)]">
+      <div class="p-8 md:p-10">
+        
+        <!-- Header -->
+        <div class="text-center mb-8">
+          <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-brand-light text-brand mb-5 shadow-inner">
+            <ion-icon name="person" class="text-4xl"></ion-icon>
+          </div>
+          <h2 class="text-3xl font-display font-extrabold tracking-tight">Welcome</h2>
+          <p class="opacity-70 mt-2 font-sans font-medium text-sm">Log in to continue with your order</p>
+        </div>
+
+        <form (ngSubmit)="login()" class="space-y-6">
+          
+          <div class="space-y-4">
+            <!-- Username Input -->
+            <div class="relative">
+              <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand focus-within:ring-1 focus-within:ring-brand transition-all">
+                <ion-icon name="person-outline" slot="start" class="opacity-50 ml-2"></ion-icon>
+                <ion-input
+                  [(ngModel)]="credenciales.username"
+                  name="usuario"
+                  type="text"
+                  placeholder="Username"
+                  class="font-sans font-medium"
+                ></ion-input>
+              </ion-item>
+            </div>
+
+            <!-- Password Input -->
+            <div class="relative">
+              <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand focus-within:ring-1 focus-within:ring-brand transition-all">
+                <ion-icon name="lock-closed-outline" slot="start" class="opacity-50 ml-2"></ion-icon>
+                <ion-input
+                  [(ngModel)]="credenciales.password"
+                  name="password"
+                  type="password"
+                  placeholder="Password"
+                  class="font-sans font-medium"
+                ></ion-input>
+              </ion-item>
+            </div>
+          </div>
+
+          <div class="text-brand text-sm text-center font-sans font-medium mt-2" *ngIf="errorInicioSesion">
+            Login failed. Please check your credentials.
+          </div>
+
+          <div class="text-right">
+            <button type="button" (click)="openSolicitarRestablecimiento()" class="text-sm font-sans font-bold opacity-70 hover:opacity-100 hover:text-brand transition-colors">
+              Forgot your password?
+            </button>
+          </div>
+
+          <div class="pt-4">
+            <button type="submit" class="w-full py-4 bg-brand text-white rounded-2xl font-sans font-bold text-lg shadow-[0_4px_15px_rgba(255,71,87,0.3)] hover:shadow-[0_6px_20px_rgba(255,71,87,0.4)] transform active:scale-95 transition-all duration-200">
+              Log In
+            </button>
+          </div>
+          
+        </form>
+
+        <div class="mt-8 text-center border-t border-[var(--ion-color-step-150)] pt-6">
+          <p class="opacity-70 font-sans font-medium text-sm">
+            Don't have an account? 
+            <button (click)="openModalCliente()" class="text-brand font-bold hover:text-brand-dark transition-colors ml-1 opacity-100">
+              Sign up now
+            </button>
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</ion-content>

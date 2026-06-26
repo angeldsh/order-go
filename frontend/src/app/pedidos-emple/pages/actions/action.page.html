@@ -1,0 +1,33 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="--background-transparent bg-[var(--ion-background-color)] border-b border-[var(--ion-color-step-50)]">
+    <ion-buttons slot="start" class="ml-2">
+      <div class="lg:hidden bg-[var(--ion-color-step-50)] rounded-xl shadow-sm border border-[var(--ion-color-step-100)] flex items-center justify-center w-11 h-11">
+        <ion-menu-button color="primary"></ion-menu-button>
+      </div>
+    </ion-buttons>
+    <ion-title class="font-display font-bold text-xl text-center text-[var(--ion-text-color)]">Ticket Management</ion-title>
+    <!-- Spacer for centering -->
+    <ion-buttons slot="end" class="mr-2 w-11"></ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="bg-[var(--ion-background-color)]">
+  <div class="p-4 md:p-8 max-w-5xl mx-auto flex flex-col md:flex-row gap-6">
+    <!-- Left Column: Create Ticket -->
+    <div class="w-full md:w-1/3 shrink-0">
+      <app-ticket-create></app-ticket-create>
+    </div>
+    
+    <!-- Right Column: Active Tickets to Close -->
+    <div class="w-full md:w-2/3 flex flex-col space-y-4">
+      <div class="px-2">
+        <h2 class="text-lg font-bold text-[var(--ion-text-color)]">Active Tickets</h2>
+        <p class="text-sm text-[var(--ion-color-step-500)]">Close tickets to free up tables.</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <app-ticket-delete></app-ticket-delete>
+      </div>
+    </div>
+  </div>
+</ion-content>
+

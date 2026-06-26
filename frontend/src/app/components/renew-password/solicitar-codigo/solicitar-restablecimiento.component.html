@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Restablecer contraseña</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item>
+    <ion-input
+      label="Email:"
+      label-placement="floating"
+      [(ngModel)]="email"
+      type="email"
+      required
+    ></ion-input>
+  </ion-item>
+  <ion-button
+    class="custom-button"
+    expand="block"
+    (click)="solicitarRestablecimiento()"
+    >Enviar Código</ion-button
+  >
+</ion-content>

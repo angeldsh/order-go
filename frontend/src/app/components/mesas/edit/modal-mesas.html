@@ -1,0 +1,31 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="bg-transparent" color="transparent">
+    <ion-title class="font-sans font-bold text-lg text-[var(--ion-text-color)]">{{ mesa ? 'Edit Table' : 'Add Table' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()" class="text-[var(--ion-color-step-600)]">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding font-sans bg-[var(--ion-background-color)]">
+  <div class="px-4 py-2">
+    <form [formGroup]="mesaForm" (ngSubmit)="guardarCambios()" class="space-y-4">
+      
+      <div class="relative">
+        <ion-item lines="none" class="bg-[var(--ion-color-step-50)] rounded-2xl border border-[var(--ion-color-step-150)] shadow-sm focus-within:border-brand transition-colors">
+          <ion-input label="Table Number" label-placement="floating" formControlName="numero" type="number" class="font-sans" required></ion-input>
+        </ion-item>
+        <p class="text-brand text-xs font-sans font-medium mt-1 ml-2" *ngIf="mesaForm.get('numero')?.hasError('required') && mesaForm.get('numero')?.touched">Table number is required.</p>
+      </div>
+
+      <div class="pt-4">
+        <ion-button type="submit" expand="block" [disabled]="mesaForm.invalid" class="h-12 font-sans font-bold shadow-md rounded-2xl overflow-hidden" color="primary">
+          {{ mesa ? 'Save Changes' : 'Add Table' }}
+        </ion-button>
+      </div>
+
+    </form>
+  </div>
+</ion-content>

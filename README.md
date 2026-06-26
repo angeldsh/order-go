@@ -13,6 +13,13 @@
 
 ---
 
+## 🔗 Live Demo & Testing
+
+- **Live Preview:** [https://orderandgoo.netlify.app/welcome](https://orderandgoo.netlify.app/welcome)
+- **Demo Credentials:** Please check the [User Manual (USER_MANUAL.md)](./USER_MANUAL.md) for test accounts and instructions.
+
+---
+
 ## 📖 Overview
 
 **Order & Go** is a full-stack, responsive web application designed to manage restaurant operations end-to-end. It features a scalable **Spring Boot RESTful API** on the backend and a dynamic, cross-platform **Angular + Ionic** frontend.

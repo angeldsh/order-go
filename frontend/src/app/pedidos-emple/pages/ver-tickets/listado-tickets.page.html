@@ -100,7 +100,7 @@
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
                   <div>
                     <span class="inline-block px-2.5 py-1 bg-[var(--ion-color-step-100)] text-[var(--ion-color-step-600)] text-[10px] font-bold uppercase tracking-wider rounded-md border border-[var(--ion-color-step-200)] mb-1">
-                      {{ pedido.tipo === 'a_domicilio' ? 'Delivery' : 'Dine-in' }}
+                      {{ (pedido.direccion && pedido.direccion.direccion) ? 'Delivery' : (pedido.ticket && pedido.ticket.mesa ? 'Dine-in' : 'Take Away') }}
                     </span>
                     <div class="flex items-center space-x-2">
                       <h4 class="font-bold text-base text-[var(--ion-text-color)]">{{ pedido.fecha | date: 'HH:mm' }}</h4>

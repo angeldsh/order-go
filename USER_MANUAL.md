@@ -1,43 +1,42 @@
 # 🍔 Order & Go - User Manual
 
-Welcome to the **Order & Go** application. This document provides the necessary credentials and instructions to explore the application from different user perspectives.
+Welcome to the **Order & Go** application. This document provides instructions and test credentials to explore the different workflows and user roles within the system.
 
 > [!NOTE]
-> For security reasons, **Admin access is disabled** in the live preview to protect the integrity of the application's core data.
+> For security reasons, **Admin access is disabled** in the live preview to protect the integrity of the application's core data. You do not need to manually select a role when logging in; the system automatically detects your permissions based on your account.
 
 ## 🔗 Live Preview
 Access the live application here: [https://orderandgoo.netlify.app/welcome](https://orderandgoo.netlify.app/welcome)
 
 ---
 
-## 👨‍🍳 Employee / Waiter Access
+## 🍽️ Dine-In (Table Orders)
 
-Use the employee account to test the restaurant staff capabilities, such as managing orders, interacting with table tickets, and processing states.
+You can simulate a customer sitting at a table inside the restaurant. This flow does **not** require logging in.
 
-- **Username:** `employee`
-- **Password:** `A123456`
+- **How to test:** On the welcome screen, look for the option to enter a table code.
+- **Active Table Code:** `GEIVTB`
 
-### Testing Table Orders
-If you want to simulate a customer ordering from a specific table, you can use the following active Table Code:
-
-- **Table Code:** `GEIVTB`
+Entering this code will link your current session to a specific table, allowing you to add items to the cart and place an order directly to the kitchen.
 
 ---
 
-## 📱 Customer / Client Access
+## 🛵 Delivery & Takeaway (Client Access)
 
-You can explore the application as a customer looking to place a standard order without needing a table code.
+If you want to simulate a customer ordering from home (Delivery or Takeaway), you need to log in as a Client. While you can register a new account from the outside (which automatically assigns the Client role), you can also use this pre-configured test account:
 
 - **Username:** `client`
 - **Password:** `A123456a`
 
-*(Note: Customers also have the option to explore without registering, but using these credentials provides a complete logged-in experience).*
+- **How to test:** Log in using these credentials. You will be able to browse the menu, add items to your cart, and proceed to checkout for a delivery/takeaway order.
 
 ---
 
-## 💡 Quick Start Guide
+## 👨‍🍳 Staff Operations (Employee Access)
 
-1. Navigate to the [Live Preview](https://orderandgoo.netlify.app/welcome).
-2. Choose your role (Employee or Client) and use the credentials provided above.
-3. **As an Employee:** Enter the Table Code `GEIVTB` to manage an active table ticket, or browse the internal operations dashboard.
-4. **As a Client:** Browse the menu, add items to your cart, and simulate placing an order.
+To test the internal restaurant operations (managing incoming orders, updating ticket statuses, etc.), you must log in as an Employee. Employee accounts cannot be registered publicly; they must be created by an Admin.
+
+- **Username:** `employee`
+- **Password:** `A123456`
+
+- **How to test:** Log in using these credentials. You will have access to the employee dashboard where you can view all active tickets, manage table states, and process the orders created from the previous steps.

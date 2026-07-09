@@ -18,8 +18,17 @@ public class TestController {
 
     @GetMapping("/keep-alive")
     public String keepAlive() {
-        jdbcTemplate.execute("SELECT 1");
-        return "OK";
+        try {
+            jdbcTemplate.execute("SELECT * FROM productos");
+            jdbcTemplate.execute("SELECT * FROM categorias");
+            jdbcTemplate.execute("SELECT * FROM roles");
+            jdbcTemplate.execute("SELECT * FROM usuarios");
+            jdbcTemplate.execute("SELECT p.id, p.nombre, p.precio, c.nombre as categoria FROM productos p JOIN categorias c ON p.categoria_id = c.id");
+            
+            return "OK - Supabase activity registered";
+        } catch (Exception e) {
+            return "Error maintaining keep-alive: " + e.getMessage();
+        }
     }
 
     @GetMapping("/all")

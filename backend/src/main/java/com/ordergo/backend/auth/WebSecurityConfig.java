@@ -87,12 +87,6 @@ public class WebSecurityConfig {
                                 .requestMatchers(
                                         new AntPathRequestMatcher("/api/mesas/**", HttpMethod.GET)
                                 ).permitAll()
-                                .requestMatchers(
-                                        new AntPathRequestMatcher("/api/empleados/**", HttpMethod.GET)
-                                ).permitAll()
-                                .requestMatchers("/api/pedidos/**").permitAll()
-                                .requestMatchers("/api/pedidos/detalles/**").permitAll()
-                                .requestMatchers("/api/tickets/**").permitAll()
                                 .requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/api/test/**").permitAll()
                                 .anyRequest().authenticated()
